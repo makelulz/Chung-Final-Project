@@ -1366,8 +1366,8 @@ MonoBehaviour:
     to my car.
   response: 0
   customer4: {fileID: 157302413}
-  customer3: {fileID: 0}
-  customer2: {fileID: 0}
+  customer3: {fileID: 1648786362}
+  customer2: {fileID: 1955386912}
 --- !u!4 &784654674
 Transform:
   m_ObjectHideFlags: 0
@@ -2873,6 +2873,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1588490503}
   m_CullTransparentMesh: 0
+--- !u!1 &1648786362 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2337133917546176683, guid: a98958406601d4b41a1b31a117d3cb90,
+    type: 3}
+  m_PrefabInstance: {fileID: 248141626}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1663673337
 GameObject:
   m_ObjectHideFlags: 0
@@ -2985,6 +2991,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1810570214}
   m_CullTransparentMesh: 0
+--- !u!1 &1955386912 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2337133917546176683, guid: a98958406601d4b41a1b31a117d3cb90,
+    type: 3}
+  m_PrefabInstance: {fileID: 247818535}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2111411516
 GameObject:
   m_ObjectHideFlags: 0
