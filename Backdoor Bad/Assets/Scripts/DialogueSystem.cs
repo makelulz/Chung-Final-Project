@@ -19,6 +19,9 @@ public class DialogueSystem : MonoBehaviour
     public string noEmployeeResponse = "Oh, aight. I'll go stock up the shelves then.";
     public string yesEmployeeResponse = "Thank you Boss, I'll go ring it up right now and bring it to my car.";
     public int response = 0;
+    public GameObject customer4;
+    public GameObject customer3;
+    public GameObject customer2;
 
 
 
@@ -40,13 +43,25 @@ public class DialogueSystem : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+      Debug.Log(response.ToString());
+      if(response == 2)
+      {
+        Destroy(customer4);
+
+        Destroy(customer3);
+
+        Destroy(customer2);
+      }
+      if(response == 1)
+      {
+        Destroy(customer4);
+      }
     }
 
     public void startDay()
@@ -76,6 +91,7 @@ public class DialogueSystem : MonoBehaviour
         yesButton.GetComponent<Button>().enabled = false;
         yesButton.GetComponent<Image>().enabled = false;
         yesButton.GetComponentInChildren<Text>().enabled = false;
+
     }
 
     IEnumerator dayStart()
