@@ -7,6 +7,8 @@ TagManager:
   - customer4
   - customer3
   - customer2
+  - news article
+  - computer
   layers:
   - Default
   - TransparentFX

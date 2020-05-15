@@ -18,6 +18,12 @@ public class DialogueSystem : MonoBehaviour
         " and toilet paper at home. Can I take some from storage before we put it out on the shelves? I'll pay regular price of course.";
     public string noEmployeeResponse = "Oh, aight. I'll go stock up the shelves then.";
     public string yesEmployeeResponse = "Thank you Boss, I'll go ring it up right now and bring it to my car.";
+    public string familyRequest = "Hey Honey I just noticed that we are out of bottle water at home, can you bring some home after your shift? ";
+    public string yesFamilyRequest = "Thanks sweetie, you just saved me some time from going outside today.";
+    public string noFamilyRequest = "It's ok honey, I'll go outside and get it myself, see you at home.";
+    public string customerRequest = "";
+    public string customerResponse1 = "";
+    public string customerResponse2 = "";
     public int response = 0;
     public GameObject customer4;
     public GameObject customer3;
