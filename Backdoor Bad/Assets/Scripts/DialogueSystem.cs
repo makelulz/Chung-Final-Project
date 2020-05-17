@@ -8,8 +8,16 @@ public class DialogueSystem : MonoBehaviour
     public Text employeeText;
     public GameObject startButton;
     public GameObject yesButton;
+    public GameObject middleButton;
     public GameObject noButton;
-    public AudioSource sound;
+    public GameObject nextButton;
+    public GameObject textBackDrop;
+    public GameObject wifeRequestButton;
+    public GameObject wifeResponseButton;
+    public GameObject playerTextButton;
+    public Light phoneLight;
+    public AudioSource doorSound;
+    public AudioSource phoneSound;
     public GameObject employee;
     public string opening = "It's the start of a new day at your job being the Manager of a Malmart during the COVID-19 crisis." +
         " Life has been strange and difficult since this virus hit, but your store is one essential front for the wellbeing of the public." +
@@ -17,14 +25,17 @@ public class DialogueSystem : MonoBehaviour
     public string employeeRequest = "Hey Boss, the new shipment of toilet paper, hand sanitizer, and water bottles arrived. I was thinkin' Boss, I've been kinda running low on hand sanitizer" +
         " and toilet paper at home. Can I take some from storage before we put it out on the shelves? I'll pay regular price of course.";
     public string noEmployeeResponse = "Oh, aight. I'll go stock up the shelves then.";
+    public string middleEmployeeResponse = "Of course Boss, I won't take more than I need.";
     public string yesEmployeeResponse = "Thank you Boss, I'll go ring it up right now and bring it to my car.";
-    public string familyRequest = "Hey Honey I just noticed that we are out of bottle water at home, can you bring some home after your shift? ";
-    public string yesFamilyRequest = "Thanks sweetie, you just saved me some time from going outside today.";
-    public string noFamilyRequest = "It's ok honey, I'll go outside and get it myself, see you at home.";
+    public string familyRequest = "Hey Honey I just noticed that we are out of bottle water at home, can you bring some home after your shift?";
+    public string yesFamilyResponse = "Thanks sweetie, you just saved me some time from going outside today.";
+    public string middleFamilyResponse = "I understand sweetie, thank you!";
+    public string noFamilyResponse = "It's ok honey, I'll go outside and get it myself, see you at home.";
     public string customerRequest = "";
     public string customerResponse1 = "";
     public string customerResponse2 = "";
     public int response = 0;
+    public int interaction = 0;
     public GameObject customer4;
     public GameObject customer3;
     public GameObject customer2;
@@ -41,7 +52,24 @@ public class DialogueSystem : MonoBehaviour
         noButton.GetComponentInChildren<Text>().enabled = false;
         noButton.GetComponent<Button>().enabled = false;
         noButton.GetComponent<Image>().enabled = false;
-        sound = GetComponent<AudioSource>();
+        middleButton.GetComponent<Button>().enabled = false;
+        middleButton.GetComponent<Image>().enabled = false;
+        middleButton.GetComponentInChildren<Text>().enabled = false;
+        nextButton.GetComponent<Button>().enabled = false;
+        nextButton.GetComponent<Image>().enabled = false;
+        nextButton.GetComponentInChildren<Text>().enabled = false;
+        textBackDrop.GetComponent<Image>().enabled = false;
+        wifeRequestButton.GetComponent<Button>().enabled = false;
+        wifeRequestButton.GetComponent<Image>().enabled = false;
+        wifeRequestButton.GetComponentInChildren<Text>().enabled = false;
+        wifeResponseButton.GetComponent<Button>().enabled = false;
+        wifeResponseButton.GetComponent<Image>().enabled = false;
+        wifeResponseButton.GetComponentInChildren<Text>().enabled = false;
+        playerTextButton.GetComponent<Button>().enabled = false;
+        playerTextButton.GetComponent<Image>().enabled = false;
+        playerTextButton.GetComponentInChildren<Text>().enabled = false;
+
+        phoneLight.GetComponent<Light>().enabled = false;
         startText.text = "";
         startText.text = opening;
     }
@@ -78,26 +106,133 @@ public class DialogueSystem : MonoBehaviour
     public void yesButtonScript()
     {
         response = 1;
-        employeeText.text = yesEmployeeResponse;
+        if (interaction == 0)
+        {
+            employeeText.text = yesEmployeeResponse;
+        }
+
+        else if (interaction == 1)
+        {
+            playerTextButton.GetComponent<Button>().enabled = true;
+            playerTextButton.GetComponent<Image>().enabled = true;
+            playerTextButton.GetComponentInChildren<Text>().text = "Yes, I'll take what I can";
+            playerTextButton.GetComponentInChildren<Text>().enabled = true;
+            wifeResponseButton.GetComponent<Button>().enabled = true;
+            wifeResponseButton.GetComponent<Image>().enabled = true;
+            wifeResponseButton.GetComponentInChildren<Text>().text = yesFamilyResponse;
+            wifeResponseButton.GetComponentInChildren<Text>().enabled = true;
+        }
+        
         yesButton.GetComponent<Button>().enabled = false;
         yesButton.GetComponent<Image>().enabled = false;
         yesButton.GetComponentInChildren<Text>().enabled = false;
         noButton.GetComponentInChildren<Text>().enabled = false;
         noButton.GetComponent<Button>().enabled = false;
         noButton.GetComponent<Image>().enabled = false;
+        middleButton.GetComponent<Button>().enabled = false;
+        middleButton.GetComponent<Image>().enabled = false;
+        middleButton.GetComponentInChildren<Text>().enabled = false;
+        nextButton.GetComponent<Button>().enabled = true;
+        nextButton.GetComponent<Image>().enabled = true;
+        nextButton.GetComponentInChildren<Text>().enabled = true;
     }
 
     public void noButtonScript()
     {
-        response = 2;
-        employeeText.text = noEmployeeResponse;
-        noButton.GetComponentInChildren<Text>().enabled = false;
-        noButton.GetComponent<Button>().enabled = false;
-        noButton.GetComponent<Image>().enabled = false;
+        response = 1;
+        if (interaction == 0)
+        {
+            employeeText.text = noEmployeeResponse;
+        }
+
+        else if (interaction == 1)
+        {
+            playerTextButton.GetComponent<Button>().enabled = true;
+            playerTextButton.GetComponent<Image>().enabled = true;
+            playerTextButton.GetComponentInChildren<Text>().text = "No, I can't. I'm sorry.";
+            playerTextButton.GetComponentInChildren<Text>().enabled = true;
+            wifeResponseButton.GetComponent<Button>().enabled = true;
+            wifeResponseButton.GetComponent<Image>().enabled = true;
+            wifeResponseButton.GetComponentInChildren<Text>().text = noFamilyResponse;
+            wifeResponseButton.GetComponentInChildren<Text>().enabled = true;
+        }
+
         yesButton.GetComponent<Button>().enabled = false;
         yesButton.GetComponent<Image>().enabled = false;
         yesButton.GetComponentInChildren<Text>().enabled = false;
+        noButton.GetComponentInChildren<Text>().enabled = false;
+        noButton.GetComponent<Button>().enabled = false;
+        noButton.GetComponent<Image>().enabled = false;
+        middleButton.GetComponent<Button>().enabled = false;
+        middleButton.GetComponent<Image>().enabled = false;
+        middleButton.GetComponentInChildren<Text>().enabled = false;
+        nextButton.GetComponent<Button>().enabled = true;
+        nextButton.GetComponent<Image>().enabled = true;
+        nextButton.GetComponentInChildren<Text>().enabled = true;
 
+    }
+
+    public void middleButtonScript()
+    {
+        response = 3;
+        if (interaction == 0)
+        {
+            employeeText.text = middleEmployeeResponse;
+
+        }
+
+        else if (interaction == 1)
+        {
+            playerTextButton.GetComponent<Button>().enabled = true;
+            playerTextButton.GetComponent<Image>().enabled = true;
+            playerTextButton.GetComponentInChildren<Text>().text = "Yes,but not too much";
+            playerTextButton.GetComponentInChildren<Text>().enabled = true;
+            wifeResponseButton.GetComponent<Button>().enabled = true;
+            wifeResponseButton.GetComponent<Image>().enabled = true;
+            wifeResponseButton.GetComponentInChildren<Text>().text = middleFamilyResponse;
+            wifeResponseButton.GetComponentInChildren<Text>().enabled = true;
+        }
+
+        yesButton.GetComponent<Button>().enabled = false;
+        yesButton.GetComponent<Image>().enabled = false;
+        yesButton.GetComponentInChildren<Text>().enabled = false;
+        noButton.GetComponentInChildren<Text>().enabled = false;
+        noButton.GetComponent<Button>().enabled = false;
+        noButton.GetComponent<Image>().enabled = false;
+        middleButton.GetComponent<Button>().enabled = false;
+        middleButton.GetComponent<Image>().enabled = false;
+        middleButton.GetComponentInChildren<Text>().enabled = false;
+        nextButton.GetComponent<Button>().enabled =true;
+        nextButton.GetComponent<Image>().enabled =true;
+        nextButton.GetComponentInChildren<Text>().enabled = true;
+    }
+
+    public void nextInteraction()
+    {
+        if (interaction == 0)
+        {
+            interaction += 1;
+            employeeText.text = "";
+            StartCoroutine(wifeCall());
+        }
+
+        else if (interaction == 1)
+        {
+            interaction += 1;
+            textBackDrop.GetComponent<Image>().enabled = false;
+            wifeRequestButton.GetComponent<Button>().enabled = false;
+            wifeRequestButton.GetComponent<Image>().enabled = false;
+            wifeRequestButton.GetComponentInChildren<Text>().enabled = false;
+            wifeResponseButton.GetComponent<Button>().enabled = false;
+            wifeResponseButton.GetComponent<Image>().enabled = false;
+            wifeResponseButton.GetComponentInChildren<Text>().enabled = false;
+            playerTextButton.GetComponent<Button>().enabled = false;
+            playerTextButton.GetComponent<Image>().enabled = false;
+            playerTextButton.GetComponentInChildren<Text>().enabled = false;
+        }
+        nextButton.GetComponent<Button>().enabled = false;
+        nextButton.GetComponent<Image>().enabled = false;
+        nextButton.GetComponentInChildren<Text>().enabled = false;
     }
 
     IEnumerator dayStart()
@@ -109,7 +244,7 @@ public class DialogueSystem : MonoBehaviour
         startButton.GetComponent<Button>().enabled = false;
         yield return new WaitForSeconds(1);
 
-        sound.Play(0);
+        doorSound.Play(0);
         yield return new WaitForSeconds(0.5f);
         employee.GetComponent<MeshRenderer>().enabled = true;
         employeeText.GetComponent<Text>().enabled = true;
@@ -121,6 +256,32 @@ public class DialogueSystem : MonoBehaviour
         yesButton.GetComponent<Button>().enabled = true;
         yesButton.GetComponent<Image>().enabled = true;
         yesButton.GetComponentInChildren<Text>().enabled = true;
+        middleButton.GetComponent<Button>().enabled = true;
+        middleButton.GetComponent<Image>().enabled = true;
+        middleButton.GetComponentInChildren<Text>().enabled = true;
+
+    }
+
+    IEnumerator wifeCall()
+    {
+        phoneSound.Play(0);
+        phoneLight.GetComponent<Light>().enabled = true;
+        yield return new  WaitForSeconds(1f);
+        textBackDrop.GetComponent<Image>().enabled = true;
+        wifeRequestButton.GetComponent<Button>().enabled = true;
+        wifeRequestButton.GetComponent<Image>().enabled = true;
+        wifeRequestButton.GetComponentInChildren<Text>().enabled = true;
+        yield return new WaitForSeconds(1f);
+        noButton.GetComponentInChildren<Text>().enabled = true;
+        noButton.GetComponent<Button>().enabled = true;
+        noButton.GetComponent<Image>().enabled = true;
+        yesButton.GetComponent<Button>().enabled = true;
+        yesButton.GetComponent<Image>().enabled = true;
+        yesButton.GetComponentInChildren<Text>().enabled = true;
+        middleButton.GetComponent<Button>().enabled = true;
+        middleButton.GetComponent<Image>().enabled = true;
+        middleButton.GetComponentInChildren<Text>().enabled = true;
+
 
     }
 }
