@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class DialogueSystem : MonoBehaviour
 {
     public Text startText;
@@ -16,6 +17,7 @@ public class DialogueSystem : MonoBehaviour
     public GameObject wifeRequestButton;
     public GameObject wifeResponseButton;
     public GameObject playerTextButton;
+    public GameObject restartGameButton;
     public GameObject badEnding;
     public GameObject goodEnding;
     public GameObject middleEnding;
@@ -33,12 +35,12 @@ public class DialogueSystem : MonoBehaviour
     public string noEmployeeResponse = "Oh, aight. I'll go stock up the shelves then.";
     public string middleEmployeeResponse = "Of course Boss, I won't take more than I need.";
     public string yesEmployeeResponse = "Thank you Boss, I'll go ring it up right now and bring it to my car.";
-    public string familyRequest = "Hey Honey I just noticed that we are out of bottle water at home, can you bring some home after your shift?";
+    public string familyRequest = "Hey Honey I just noticed that we are out of bottled water at home, can you bring some home after your shift?";
     public string yesFamilyResponse = "Thanks sweetie, you just saved me some time from going outside today.";
     public string middleFamilyResponse = "I understand sweetie, thank you!";
     public string noFamilyResponse = "It's ok honey, I'll go outside and get it myself, see you at home.";
     public string customerRequestText = "Hello sir, one of your employees brought me here to ask you a question. What time do you restock? I wanted to come as early as possible since things are so hard to get nowadays";
-    public string noCustomerResponse = "How rude! I'm trying to protect my family, have you no soul!";
+    public string noCustomerResponse = "How rude! I'm trying to protect my family, have you no soul!?";
     public string yesCustomerResponse = "Why thank you Sir! I'll be there to hopefully get first pickings.";
     public string middleCustomerResponse = "Oh certainly. I would've probably bought excess but you're right, I should be courteous and leave for other people too.";
     public int response = 0;
@@ -61,6 +63,9 @@ public class DialogueSystem : MonoBehaviour
         yesButton.GetComponent<Button>().enabled = false;
         yesButton.GetComponent<Image>().enabled = false;
         yesButton.GetComponentInChildren<Text>().enabled = false;
+        restartGameButton.GetComponent<Button>().enabled = false;
+        restartGameButton.GetComponent<Image>().enabled = false;
+        restartGameButton.GetComponentInChildren<Text>().enabled = false;
         noButton.GetComponentInChildren<Text>().enabled = false;
         noButton.GetComponent<Button>().enabled = false;
         noButton.GetComponent<Image>().enabled = false;
@@ -273,6 +278,7 @@ public class DialogueSystem : MonoBehaviour
             doorSound.Play(0);
             customer.GetComponent<MeshRenderer>().enabled = false;
             customerText.GetComponent<Text>().enabled = false;
+
             if (yesPress >= 2)
             {
                 goodEnding.GetComponent<MeshRenderer>().enabled = true;
@@ -293,11 +299,24 @@ public class DialogueSystem : MonoBehaviour
             {
                 middleEnding.GetComponent<MeshRenderer>().enabled = true;
             }
-
+            restartGameButton.GetComponent<Button>().enabled = true;
+            restartGameButton.GetComponent<Image>().enabled = true;
+            restartGameButton.GetComponentInChildren<Text>().enabled = true;
         }
         nextButton.GetComponent<Button>().enabled = false;
         nextButton.GetComponent<Image>().enabled = false;
         nextButton.GetComponentInChildren<Text>().enabled = false;
+    }
+
+    public void restartGame()
+    {
+        response = 0;
+        interaction = 0;
+        noPress = 0;
+        yesPress = 0;
+        middlePress = 0;
+        SceneManager.LoadScene(0);
+
     }
 
     IEnumerator dayStart()
