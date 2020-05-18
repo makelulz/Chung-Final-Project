@@ -6,6 +6,7 @@ public class DialogueSystem : MonoBehaviour
 {
     public Text startText;
     public Text employeeText;
+    public Text customerText;
     public GameObject startButton;
     public GameObject yesButton;
     public GameObject middleButton;
@@ -15,10 +16,15 @@ public class DialogueSystem : MonoBehaviour
     public GameObject wifeRequestButton;
     public GameObject wifeResponseButton;
     public GameObject playerTextButton;
+    //public GameObject badEnding;
+    //public GameObject goodEnding;
+    //public GameObject middleEnding;
     public Light phoneLight;
     public AudioSource doorSound;
     public AudioSource phoneSound;
+    public AudioSource knockSound;
     public GameObject employee;
+    public GameObject customer;
     public string opening = "It's the start of a new day at your job being the Manager of a Malmart during the COVID-19 crisis." +
         " Life has been strange and difficult since this virus hit, but your store is one essential front for the wellbeing of the public." +
         " A new shipment of essential goods should be arriving soon.";
@@ -31,11 +37,15 @@ public class DialogueSystem : MonoBehaviour
     public string yesFamilyResponse = "Thanks sweetie, you just saved me some time from going outside today.";
     public string middleFamilyResponse = "I understand sweetie, thank you!";
     public string noFamilyResponse = "It's ok honey, I'll go outside and get it myself, see you at home.";
-    public string customerRequest = "";
-    public string customerResponse1 = "";
-    public string customerResponse2 = "";
+    public string customerRequestText = "Hello sir, one of your employees brought me here to ask you a question. What time do you restock? I wanted to come as early as possible since things are so hard to get nowadays";
+    public string noCustomerResponse = "How rude! I'm trying to protect my family, have you no soul!";
+    public string yesCustomerResponse = "Why thank you Sir! I'll be there to hopefully get first pickings.";
+    public string middleCustomerResponse = "Oh certainly. I would've probably bought excess but you're right, I should be courteous and leave for other people too.";
     public int response = 0;
     public int interaction = 0;
+    public int noPress = 0;
+    public int yesPress = 0;
+    public int middlePress = 0;
     public GameObject customer4;
     public GameObject customer3;
     public GameObject customer2;
@@ -46,6 +56,8 @@ public class DialogueSystem : MonoBehaviour
     {
         employee.GetComponent<MeshRenderer>().enabled = false;
         employeeText.GetComponent<Text>().enabled = false;
+        customer.GetComponent<MeshRenderer>().enabled = false;
+        customerText.GetComponent<Text>().enabled = false;
         yesButton.GetComponent<Button>().enabled = false;
         yesButton.GetComponent<Image>().enabled = false;
         yesButton.GetComponentInChildren<Text>().enabled = false;
@@ -68,6 +80,9 @@ public class DialogueSystem : MonoBehaviour
         playerTextButton.GetComponent<Button>().enabled = false;
         playerTextButton.GetComponent<Image>().enabled = false;
         playerTextButton.GetComponentInChildren<Text>().enabled = false;
+        //goodEnding.GetComponent<MeshRenderer>().enabled = false;
+        //badEnding.GetComponent<MeshRenderer>().enabled = false;
+        //middleEnding.GetComponent<MeshRenderer>().enabled = false;
 
         phoneLight.GetComponent<Light>().enabled = false;
         startText.text = "";
@@ -83,19 +98,18 @@ public class DialogueSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      Debug.Log(response.ToString());
-      if(response == 2)
-      {
-        Destroy(customer4);
+        if (response == 2)
+        {
+            Destroy(customer4);
 
-        Destroy(customer3);
+            Destroy(customer3);
 
-        Destroy(customer2);
-      }
-      if(response == 1)
-      {
-        Destroy(customer4);
-      }
+            Destroy(customer2);
+        }
+        if (response == 1)
+        {
+            Destroy(customer4);
+        }
     }
 
     public void startDay()
@@ -106,6 +120,7 @@ public class DialogueSystem : MonoBehaviour
     public void yesButtonScript()
     {
         response = 1;
+        yesPress += 1;
         if (interaction == 0)
         {
             employeeText.text = yesEmployeeResponse;
@@ -122,7 +137,12 @@ public class DialogueSystem : MonoBehaviour
             wifeResponseButton.GetComponentInChildren<Text>().text = yesFamilyResponse;
             wifeResponseButton.GetComponentInChildren<Text>().enabled = true;
         }
-        
+
+        else if (interaction == 2)
+        {
+            customerText.text = yesCustomerResponse;
+        }
+
         yesButton.GetComponent<Button>().enabled = false;
         yesButton.GetComponent<Image>().enabled = false;
         yesButton.GetComponentInChildren<Text>().enabled = false;
@@ -140,6 +160,7 @@ public class DialogueSystem : MonoBehaviour
     public void noButtonScript()
     {
         response = 1;
+        noPress += 1;
         if (interaction == 0)
         {
             employeeText.text = noEmployeeResponse;
@@ -155,6 +176,11 @@ public class DialogueSystem : MonoBehaviour
             wifeResponseButton.GetComponent<Image>().enabled = true;
             wifeResponseButton.GetComponentInChildren<Text>().text = noFamilyResponse;
             wifeResponseButton.GetComponentInChildren<Text>().enabled = true;
+        }
+
+        else if (interaction == 2)
+        {
+            customerText.text = noCustomerResponse;
         }
 
         yesButton.GetComponent<Button>().enabled = false;
@@ -175,6 +201,7 @@ public class DialogueSystem : MonoBehaviour
     public void middleButtonScript()
     {
         response = 3;
+        middlePress += 1;
         if (interaction == 0)
         {
             employeeText.text = middleEmployeeResponse;
@@ -193,6 +220,11 @@ public class DialogueSystem : MonoBehaviour
             wifeResponseButton.GetComponentInChildren<Text>().enabled = true;
         }
 
+        else if (interaction == 2)
+        {
+            customerText.text = middleCustomerResponse;
+        }
+
         yesButton.GetComponent<Button>().enabled = false;
         yesButton.GetComponent<Image>().enabled = false;
         yesButton.GetComponentInChildren<Text>().enabled = false;
@@ -202,8 +234,8 @@ public class DialogueSystem : MonoBehaviour
         middleButton.GetComponent<Button>().enabled = false;
         middleButton.GetComponent<Image>().enabled = false;
         middleButton.GetComponentInChildren<Text>().enabled = false;
-        nextButton.GetComponent<Button>().enabled =true;
-        nextButton.GetComponent<Image>().enabled =true;
+        nextButton.GetComponent<Button>().enabled = true;
+        nextButton.GetComponent<Image>().enabled = true;
         nextButton.GetComponentInChildren<Text>().enabled = true;
     }
 
@@ -213,6 +245,9 @@ public class DialogueSystem : MonoBehaviour
         {
             interaction += 1;
             employeeText.text = "";
+            doorSound.Play(0);
+            employee.GetComponent<MeshRenderer>().enabled = false;
+            employeeText.GetComponent<Text>().enabled = false;
             StartCoroutine(wifeCall());
         }
 
@@ -229,6 +264,36 @@ public class DialogueSystem : MonoBehaviour
             playerTextButton.GetComponent<Button>().enabled = false;
             playerTextButton.GetComponent<Image>().enabled = false;
             playerTextButton.GetComponentInChildren<Text>().enabled = false;
+            phoneLight.GetComponent<Light>().enabled = false;
+            StartCoroutine(customerEncounter());
+        }
+
+        else if (interaction == 2)
+        {
+            doorSound.Play(0);
+            customer.GetComponent<MeshRenderer>().enabled = false;
+            customerText.GetComponent<Text>().enabled = false;
+            if (yesPress >= 2)
+            {
+                //goodEnding.GetComponent<MeshRenderer>().enabled = true;
+            }
+
+            else if (noPress >= 2)
+
+            {
+                //badEnding.GetComponent<MeshRenderer>().enabled = true;
+            }
+
+            else if (middlePress >= 2)
+            {
+                //middleEnding.GetComponent<MeshRenderer>().enabled = true;
+            }
+
+            else if (yesPress == 1 && noPress == 1 && middlePress == 1)
+            {
+                //middleEnding.GetComponent<MeshRenderer>().enabled = true;
+            }
+            
         }
         nextButton.GetComponent<Button>().enabled = false;
         nextButton.GetComponent<Image>().enabled = false;
@@ -264,9 +329,10 @@ public class DialogueSystem : MonoBehaviour
 
     IEnumerator wifeCall()
     {
+        yield return new WaitForSeconds(2f);
         phoneSound.Play(0);
         phoneLight.GetComponent<Light>().enabled = true;
-        yield return new  WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
         textBackDrop.GetComponent<Image>().enabled = true;
         wifeRequestButton.GetComponent<Button>().enabled = true;
         wifeRequestButton.GetComponent<Image>().enabled = true;
@@ -284,4 +350,33 @@ public class DialogueSystem : MonoBehaviour
 
 
     }
+
+    IEnumerator customerEncounter()
+    {
+        yield return new WaitForSeconds(2f);
+        knockSound.Play(0);
+        yield return new WaitForSeconds(1f);
+        doorSound.Play(0);
+        yield return new WaitForSeconds(0.5f);
+        customer.GetComponent<MeshRenderer>().enabled = true;
+        customerText.GetComponent<Text>().text = customerRequestText;
+        customerText.GetComponent<Text>().enabled = true;
+        customerText.GetComponent<Text>().text = customerRequestText;
+        customerText.GetComponent<Text>().enabled = true;
+        yield return new WaitForSeconds(2);
+        noButton.GetComponentInChildren<Text>().text = "Don't Tell";
+        noButton.GetComponentInChildren<Text>().enabled = true;
+        noButton.GetComponent<Button>().enabled = true;
+        noButton.GetComponent<Image>().enabled = true;
+        yesButton.GetComponent<Button>().enabled = true;
+        yesButton.GetComponent<Image>().enabled = true;
+        yesButton.GetComponentInChildren<Text>().text = "Tell Her";
+        yesButton.GetComponentInChildren<Text>().enabled = true;
+        middleButton.GetComponent<Button>().enabled = true;
+        middleButton.GetComponent<Image>().enabled = true;
+        middleButton.GetComponentInChildren<Text>().text = "Tell, but warn her";
+        middleButton.GetComponentInChildren<Text>().enabled = true;
+    }
+
+
 }
