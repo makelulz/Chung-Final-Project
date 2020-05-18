@@ -16,9 +16,9 @@ public class DialogueSystem : MonoBehaviour
     public GameObject wifeRequestButton;
     public GameObject wifeResponseButton;
     public GameObject playerTextButton;
-    //public GameObject badEnding;
-    //public GameObject goodEnding;
-    //public GameObject middleEnding;
+    public GameObject badEnding;
+    public GameObject goodEnding;
+    public GameObject middleEnding;
     public Light phoneLight;
     public AudioSource doorSound;
     public AudioSource phoneSound;
@@ -80,9 +80,9 @@ public class DialogueSystem : MonoBehaviour
         playerTextButton.GetComponent<Button>().enabled = false;
         playerTextButton.GetComponent<Image>().enabled = false;
         playerTextButton.GetComponentInChildren<Text>().enabled = false;
-        //goodEnding.GetComponent<MeshRenderer>().enabled = false;
-        //badEnding.GetComponent<MeshRenderer>().enabled = false;
-        //middleEnding.GetComponent<MeshRenderer>().enabled = false;
+        goodEnding.GetComponent<MeshRenderer>().enabled = false;
+        badEnding.GetComponent<MeshRenderer>().enabled = false;
+        middleEnding.GetComponent<MeshRenderer>().enabled = false;
 
         phoneLight.GetComponent<Light>().enabled = false;
         startText.text = "";
@@ -275,25 +275,25 @@ public class DialogueSystem : MonoBehaviour
             customerText.GetComponent<Text>().enabled = false;
             if (yesPress >= 2)
             {
-                //goodEnding.GetComponent<MeshRenderer>().enabled = true;
+                goodEnding.GetComponent<MeshRenderer>().enabled = true;
             }
 
             else if (noPress >= 2)
 
             {
-                //badEnding.GetComponent<MeshRenderer>().enabled = true;
+                badEnding.GetComponent<MeshRenderer>().enabled = true;
             }
 
             else if (middlePress >= 2)
             {
-                //middleEnding.GetComponent<MeshRenderer>().enabled = true;
+                middleEnding.GetComponent<MeshRenderer>().enabled = true;
             }
 
             else if (yesPress == 1 && noPress == 1 && middlePress == 1)
             {
-                //middleEnding.GetComponent<MeshRenderer>().enabled = true;
+                middleEnding.GetComponent<MeshRenderer>().enabled = true;
             }
-            
+
         }
         nextButton.GetComponent<Button>().enabled = false;
         nextButton.GetComponent<Image>().enabled = false;
